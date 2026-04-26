@@ -721,9 +721,15 @@
       <h2>Say hello,<br>slowly.</h2>
       <p>We love hearing from fellow unhurried souls. Whether you have a question about our blends, want to stock Slothie in your café, or just want to chat about the superior lifestyle of the three-toed sloth — we're here.</p>
       <p>We aim to reply within one to three business days. Possibly longer if it's a very good hammock day.</p>
-      <a href="mailto:slowdown@slothie.org" class="contact-email">
-        slowdown@slothie.org &rarr;
-      </a>
+      <a id="contact-link" class="contact-email"></a>
+      <script>
+        (function(){
+          var u='slowdown',d='slothie.org';
+          var el=document.getElementById('contact-link');
+          el.href='mailto:'+u+'@'+d;
+          el.textContent=u+'@'+d+' →';
+        })();
+      </script>
     </div>
     <div class="findus-right">
       <div class="location-card">
