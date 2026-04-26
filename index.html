@@ -1,22 +1,745 @@
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>hanging around</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slothie — Slow down. Drink up.</title>
+  <meta name="description" content="Small-batch tropical smoothies for people who refuse to rush. Blended slow, served cold, enjoyed even slower." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0d1f0f;
+      --bg2:       #132917;
+      --bg3:       #1a3d1e;
+      --green1:    #7ec98f;
+      --green2:    #4a9e5c;
+      --green3:    #2e5e33;
+      --green4:    #1e3d21;
+      --text:      #e8f5ea;
+      --muted:     #4a9e5c;
+      --dimmer:    #3a6e42;
+      --border:    #1e3d21;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(13, 31, 15, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo svg { flex-shrink: 0; }
+
+    .nav-wordmark {
+      font-size: 15px;
+      letter-spacing: 0.22em;
+      color: var(--green1);
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--dimmer);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--green1); }
+
+    /* ── HERO ── */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 72px 48px 64px;
+      gap: 32px;
+      min-height: 85vh;
+    }
+
+    .hero-left { flex: 1; max-width: 480px; }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--dimmer);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green2);
+      flex-shrink: 0;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 7vw, 80px);
+      font-weight: 400;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .hero h1 em {
+      color: var(--green1);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 36px;
+      max-width: 360px;
+    }
+
+    .hero-actions { display: flex; align-items: center; gap: 20px; }
+
+    .btn-primary {
+      background: var(--green2);
+      color: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 13px 24px;
+      border-radius: 8px;
+      letter-spacing: 0.08em;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--green1); transform: translateY(-1px); }
+
+    .btn-ghost {
+      font-size: 12px;
+      color: var(--dimmer);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      border-bottom: 0.5px solid var(--dimmer);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-ghost:hover { color: var(--green1); border-color: var(--green1); }
+
+    .hero-right { flex-shrink: 0; }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--dimmer);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    /* ── BLENDS ── */
+    .blends {
+      padding: 0 48px 72px;
+    }
+
+    .blend-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .blend-card {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .blend-card:hover {
+      border-color: var(--green3);
+      transform: translateY(-3px);
+    }
+
+    .blend-img {
+      height: 200px;
+      background: var(--bg3);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-top: 20px;
+      overflow: hidden;
+    }
+
+    .blend-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .blend-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-top: 20px;
+    }
+
+    .blend-info { padding: 20px; }
+
+    .blend-name {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .blend-desc {
+      font-size: 12px;
+      color: var(--dimmer);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .blend-tag {
+      display: inline-block;
+      background: var(--bg3);
+      border: 0.5px solid var(--green3);
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── STORY ── */
+    .story {
+      padding: 72px 48px;
+      border-top: 0.5px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .story-left {}
+
+    .story h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    .story h2 em { color: var(--green1); font-style: italic; }
+
+    .story p {
+      font-size: 14px;
+      color: var(--dimmer);
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+
+    .story-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .story-stat {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+    }
+
+    .story-stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px;
+      color: var(--green1);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .story-stat-label {
+      font-size: 11px;
+      color: var(--dimmer);
+      line-height: 1.5;
+    }
+
+    /* ── MANIFESTO BANNER ── */
+    .manifesto {
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      padding: 56px 48px;
+      text-align: center;
+    }
+
+    .manifesto blockquote {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(24px, 3.5vw, 40px);
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.3;
+      max-width: 700px;
+      margin: 0 auto 16px;
+    }
+
+    .manifesto cite {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--dimmer);
+      text-transform: uppercase;
+      font-style: normal;
+    }
+
+    /* ── FIND US ── */
+    .findus {
+      padding: 72px 48px;
+      border-top: 0.5px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .findus h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .findus p {
+      font-size: 13px;
+      color: var(--dimmer);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      color: var(--green1);
+      text-decoration: none;
+      border-bottom: 0.5px solid var(--green3);
+      padding-bottom: 4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .contact-email:hover { color: var(--text); border-color: var(--green1); }
+
+    .findus-right {
+      padding-top: 8px;
+    }
+
+    .location-card {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+
+    .location-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--dimmer);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .location-name {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .location-detail {
+      font-size: 13px;
+      color: var(--dimmer);
+      line-height: 1.7;
+    }
+
+    .location-divider {
+      height: 0.5px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--dimmer);
+      padding: 4px 0;
+    }
+
+    .hours-row span:last-child { color: var(--green1); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      color: var(--green3);
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--green4);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-left > * {
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+    .hero-left > *:nth-child(2) { animation-delay: 0.2s; }
+    .hero-left > *:nth-child(3) { animation-delay: 0.3s; }
+    .hero-left > *:nth-child(4) { animation-delay: 0.4s; }
+
+    .hero-right {
+      animation: fadeUp 0.7s ease 0.35s both;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero { flex-direction: column; padding: 48px 24px 40px; min-height: auto; text-align: center; }
+      .hero-left { max-width: 100%; }
+      .hero-eyebrow { justify-content: center; }
+      .hero-sub { margin: 0 auto 28px; }
+      .hero-actions { justify-content: center; }
+      .hero-right { display: none; }
+      .blends { padding: 0 24px 48px; }
+      .blend-grid { grid-template-columns: 1fr; }
+      .story { padding: 48px 24px; grid-template-columns: 1fr; gap: 40px; }
+      .manifesto { padding: 40px 24px; }
+      .findus { padding: 48px 24px; grid-template-columns: 1fr; gap: 40px; }
+      footer { padding: 20px 24px; }
+    }
+  </style>
 </head>
+<body>
 
-<body bgcolor="#FFFFFF">
-<div align="center">
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-  <p><img src="sloth_logo.jpg" width="277"> <br>
-    <br>
-	      <p><img src="sloth_main.jpg" width="277"> <br>
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <circle cx="18" cy="18" r="17" fill="#4a9e5c"/>
+        <circle cx="18" cy="18" r="14" fill="#1a3d1e"/>
+        <ellipse cx="7" cy="13" rx="5" ry="6" fill="#4a9e5c"/>
+        <ellipse cx="29" cy="13" rx="5" ry="6" fill="#4a9e5c"/>
+        <ellipse cx="7" cy="13" rx="3" ry="4" fill="#2e5e33"/>
+        <ellipse cx="29" cy="13" rx="3" ry="4" fill="#2e5e33"/>
+        <ellipse cx="18" cy="20" rx="11" ry="10" fill="#5ab56e"/>
+        <ellipse cx="18" cy="23" rx="6" ry="4" fill="#4a9e5c"/>
+        <circle cx="13" cy="18" r="3.5" fill="#0d1f0f"/>
+        <circle cx="23" cy="18" r="3.5" fill="#0d1f0f"/>
+        <circle cx="14.2" cy="16.8" r="1.2" fill="#7ec98f"/>
+        <circle cx="24.2" cy="16.8" r="1.2" fill="#7ec98f"/>
+        <ellipse cx="18" cy="22" rx="2" ry="1.2" fill="#0d1f0f"/>
+        <path d="M14 25 Q18 28 22 25" stroke="#2e5e33" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M4 8 Q6 4 8 6" stroke="#7ec98f" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M30 6 Q32 4 34 8" stroke="#7ec98f" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="nav-wordmark">SLOTHIE</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#blends">Blends</a></li>
+      <li><a href="#story">Our story</a></li>
+      <li><a href="#findus">Find us</a></li>
+    </ul>
+  </nav>
 
-  </p>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-</div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        small-batch &middot; tropical &middot; unhurried
+      </div>
+      <h1>Slow down.<br><em>Drink up.</em></h1>
+      <p class="hero-sub">Smoothies for people who refuse to rush. Blended slow, served cold, enjoyed even slower.</p>
+      <div class="hero-actions">
+        <a href="#blends" class="btn-primary">Shop the blends</a>
+        <a href="#story" class="btn-ghost">Our story &rarr;</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <!-- Cartoon sloth SVG -->
+      <svg width="260" height="280" viewBox="0 0 240 260" fill="none" aria-hidden="true">
+        <path d="M10 38 Q120 18 230 32" stroke="#2e5e33" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <ellipse cx="40" cy="22" rx="16" ry="9" fill="#3a7a47" transform="rotate(-20 40 22)"/>
+        <ellipse cx="70" cy="14" rx="14" ry="8" fill="#4a9e5c" transform="rotate(-10 70 14)"/>
+        <ellipse cx="170" cy="16" rx="15" ry="8" fill="#3a7a47" transform="rotate(10 170 16)"/>
+        <ellipse cx="200" cy="22" rx="13" ry="7" fill="#4a9e5c" transform="rotate(20 200 22)"/>
+        <path d="M85 38 Q72 70 68 110" stroke="#5ab56e" stroke-width="14" stroke-linecap="round" fill="none"/>
+        <path d="M155 35 Q168 68 172 108" stroke="#5ab56e" stroke-width="14" stroke-linecap="round" fill="none"/>
+        <path d="M78 40 Q82 30 88 36" stroke="#7ec98f" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M84 36 Q88 26 94 33" stroke="#7ec98f" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M90 34 Q95 25 100 32" stroke="#7ec98f" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M148 33 Q153 23 158 30" stroke="#7ec98f" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M154 31 Q160 22 165 29" stroke="#7ec98f" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M160 30 Q166 22 170 30" stroke="#7ec98f" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="120" cy="160" rx="52" ry="58" fill="#5ab56e"/>
+        <ellipse cx="120" cy="168" rx="34" ry="38" fill="#7ec98f"/>
+        <ellipse cx="120" cy="108" rx="46" ry="42" fill="#5ab56e"/>
+        <ellipse cx="74" cy="90" rx="18" ry="20" fill="#5ab56e"/>
+        <ellipse cx="74" cy="90" rx="11" ry="13" fill="#3a7a47"/>
+        <ellipse cx="166" cy="90" rx="18" ry="20" fill="#5ab56e"/>
+        <ellipse cx="166" cy="90" rx="11" ry="13" fill="#3a7a47"/>
+        <ellipse cx="120" cy="116" rx="30" ry="24" fill="#7ec98f"/>
+        <circle cx="106" cy="104" r="13" fill="#1a3d1e"/>
+        <circle cx="134" cy="104" r="13" fill="#1a3d1e"/>
+        <circle cx="106" cy="104" r="9" fill="#0d1f0f"/>
+        <circle cx="134" cy="104" r="9" fill="#0d1f0f"/>
+        <circle cx="109" cy="101" r="3.5" fill="white"/>
+        <circle cx="137" cy="101" r="3.5" fill="white"/>
+        <circle cx="110.5" cy="102.5" r="1.5" fill="#0d1f0f"/>
+        <circle cx="138.5" cy="102.5" r="1.5" fill="#0d1f0f"/>
+        <ellipse cx="120" cy="116" rx="5" ry="3.5" fill="#2e5e33"/>
+        <path d="M106 124 Q120 134 134 124" stroke="#2e5e33" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M90 210 Q80 230 85 250" stroke="#5ab56e" stroke-width="12" stroke-linecap="round" fill="none"/>
+        <path d="M150 210 Q160 230 155 250" stroke="#5ab56e" stroke-width="12" stroke-linecap="round" fill="none"/>
+        <path d="M79 248 Q82 256 88 252" stroke="#7ec98f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M84 252 Q87 260 93 256" stroke="#7ec98f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M148 252 Q152 260 157 255" stroke="#7ec98f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M154 248 Q158 256 162 251" stroke="#7ec98f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- BLENDS -->
+  <section class="blends" id="blends">
+    <p class="section-label">The lineup</p>
+    <div class="blend-grid">
+
+      <article class="blend-card">
+        <div class="blend-img">
+          <!-- Replace src with a real photo e.g. from Unsplash: https://unsplash.com/s/photos/mango-smoothie -->
+          <!-- <img src="images/mango-hang.jpg" alt="Mango Hang smoothie"> -->
+          <div class="blend-img-placeholder">
+            <svg width="120" height="178" viewBox="0 0 120 178" fill="none">
+              <ellipse cx="18" cy="60" rx="12" ry="12" fill="#EF9F27" opacity="0.5"/>
+              <ellipse cx="100" cy="80" rx="9" ry="9" fill="#FAC775" opacity="0.4"/>
+              <path d="M32 18 L22 168 Q22 174 60 174 Q98 174 98 168 L88 18 Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <path d="M34 42 L24 168 Q24 173 60 173 Q96 173 96 168 L86 42 Z" fill="#F5A623"/>
+              <path d="M38 50 L30 158 Q31 166 44 168" stroke="#FAC775" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4"/>
+              <ellipse cx="60" cy="42" rx="25" ry="8" fill="#FAD98A" opacity="0.7"/>
+              <ellipse cx="60" cy="18" rx="28" ry="7" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+              <ellipse cx="87" cy="80" rx="1.5" ry="3" fill="rgba(255,255,255,0.14)"/>
+              <ellipse cx="84" cy="106" rx="1" ry="2.5" fill="rgba(255,255,255,0.1)"/>
+              <path d="M72 14 Q84 4 88 16 Q80 20 72 14 Z" fill="#EF9F27"/>
+              <rect x="74" y="2" width="4" height="96" rx="2" fill="#7ec98f"/>
+              <rect x="74" y="2" width="2" height="96" rx="1" fill="#9ee8b0" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="blend-info">
+          <h3 class="blend-name">Mango Hang</h3>
+          <p class="blend-desc">Mango, coconut, a hint of lime. Named after the sloth's favorite pastime.</p>
+          <span class="blend-tag">tropical</span>
+        </div>
+      </article>
+
+      <article class="blend-card">
+        <div class="blend-img">
+          <!-- <img src="images/jungle-green.jpg" alt="Jungle Green smoothie"> -->
+          <div class="blend-img-placeholder">
+            <svg width="120" height="178" viewBox="0 0 120 178" fill="none">
+              <ellipse cx="15" cy="55" rx="14" ry="8" fill="#3a7a47" opacity="0.4" transform="rotate(-30 15 55)"/>
+              <ellipse cx="102" cy="75" rx="11" ry="6" fill="#4a9e5c" opacity="0.35" transform="rotate(20 102 75)"/>
+              <path d="M32 18 L22 168 Q22 174 60 174 Q98 174 98 168 L88 18 Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <path d="M34 42 L24 168 Q24 173 60 173 Q96 173 96 168 L86 42 Z" fill="#5a9e35"/>
+              <path d="M38 50 L30 158 Q31 166 44 168" stroke="#97C459" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4"/>
+              <ellipse cx="60" cy="42" rx="25" ry="8" fill="#7dc45a" opacity="0.7"/>
+              <ellipse cx="60" cy="18" rx="28" ry="7" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+              <ellipse cx="87" cy="78" rx="1.5" ry="3" fill="rgba(255,255,255,0.14)"/>
+              <ellipse cx="84" cy="108" rx="1" ry="2.5" fill="rgba(255,255,255,0.1)"/>
+              <circle cx="75" cy="15" r="9" fill="#4a9e5c" stroke="#7ec98f" stroke-width="1"/>
+              <circle cx="75" cy="15" r="5" fill="#97C459"/>
+              <line x1="75" y1="8" x2="75" y2="22" stroke="#4a9e5c" stroke-width="0.8"/>
+              <line x1="68" y1="15" x2="82" y2="15" stroke="#4a9e5c" stroke-width="0.8"/>
+              <rect x="44" y="2" width="4" height="92" rx="2" fill="#EF9F27"/>
+              <rect x="44" y="2" width="2" height="92" rx="1" fill="#FAC775" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="blend-info">
+          <h3 class="blend-name">Jungle Green</h3>
+          <p class="blend-desc">Spinach, pineapple, ginger, cucumber. Dense. Deliberate. Deeply green.</p>
+          <span class="blend-tag">green</span>
+        </div>
+      </article>
+
+      <article class="blend-card">
+        <div class="blend-img">
+          <!-- <img src="images/lazy-berry.jpg" alt="Lazy Berry smoothie"> -->
+          <div class="blend-img-placeholder">
+            <svg width="120" height="178" viewBox="0 0 120 178" fill="none">
+              <circle cx="16" cy="62" r="8" fill="#993556" opacity="0.45"/>
+              <circle cx="22" cy="48" r="5" fill="#D4537E" opacity="0.4"/>
+              <circle cx="100" cy="55" r="7" fill="#72243E" opacity="0.4"/>
+              <path d="M32 18 L22 168 Q22 174 60 174 Q98 174 98 168 L88 18 Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <path d="M34 42 L24 168 Q24 173 60 173 Q96 173 96 168 L86 42 Z" fill="#8B2252"/>
+              <path d="M38 50 L30 158 Q31 166 44 168" stroke="#D4537E" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4"/>
+              <ellipse cx="60" cy="42" rx="25" ry="8" fill="#b03570" opacity="0.7"/>
+              <ellipse cx="60" cy="18" rx="28" ry="7" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+              <ellipse cx="87" cy="80" rx="1.5" ry="3" fill="rgba(255,255,255,0.13)"/>
+              <circle cx="42" cy="13" r="6" fill="#72243E" stroke="#D4537E" stroke-width="0.8"/>
+              <circle cx="52" cy="10" r="5" fill="#993556" stroke="#D4537E" stroke-width="0.8"/>
+              <circle cx="47" cy="8" r="4" fill="#D4537E" stroke="#ED93B1" stroke-width="0.8"/>
+              <path d="M47 4 Q49 1 51 3" stroke="#3a7a47" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <rect x="66" y="2" width="4" height="94" rx="2" fill="#ED93B1"/>
+              <rect x="66" y="10" width="4" height="8" rx="0" fill="#D4537E" opacity="0.5"/>
+              <rect x="66" y="26" width="4" height="8" rx="0" fill="#D4537E" opacity="0.5"/>
+              <rect x="66" y="42" width="4" height="8" rx="0" fill="#D4537E" opacity="0.5"/>
+            </svg>
+          </div>
+        </div>
+        <div class="blend-info">
+          <h3 class="blend-name">Lazy Berry</h3>
+          <p class="blend-desc">Mixed berries, banana, oat milk. The one you reach for without getting up.</p>
+          <span class="blend-tag">berry</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <div class="manifesto">
+    <blockquote>"The fastest animal never won a smoothie competition."</blockquote>
+    <cite>— The Slothie philosophy</cite>
+  </div>
+
+  <!-- OUR STORY -->
+  <section class="story" id="story">
+    <div class="story-left">
+      <p class="section-label">Our story</p>
+      <h2>Born slow,<br><em>on purpose.</em></h2>
+      <p>Slothie started on a slow Tuesday morning in the cloud forests of Costa Rica. Our founder, tired of rushing everywhere and drinking terrible smoothies at airport terminals, decided something had to change.</p>
+      <p>The idea was simple: what if a smoothie company operated the way a sloth moves — deliberately, unhurriedly, and with complete confidence that it would get there eventually?</p>
+      <p>We source only from small farms, blend in small batches, and refuse to add anything we can't pronounce. No shortcuts. No artificial rush. Just fruit, done properly.</p>
+    </div>
+    <div class="story-right">
+      <div class="story-stat">
+        <div class="story-stat-num">3</div>
+        <div class="story-stat-label">blends, each perfected over many slow mornings</div>
+      </div>
+      <div class="story-stat">
+        <div class="story-stat-num">0</div>
+        <div class="story-stat-label">artificial ingredients, ever</div>
+      </div>
+      <div class="story-stat">
+        <div class="story-stat-num">CR</div>
+        <div class="story-stat-label">proudly based in Costa Rica</div>
+      </div>
+      <div class="story-stat">
+        <div class="story-stat-num">&#8734;</div>
+        <div class="story-stat-label">naps taken during R&amp;D</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIND US -->
+  <section class="findus" id="findus">
+    <div>
+      <p class="section-label">Find us</p>
+      <h2>Say hello,<br>slowly.</h2>
+      <p>We love hearing from fellow unhurried souls. Whether you have a question about our blends, want to stock Slothie in your café, or just want to chat about the superior lifestyle of the three-toed sloth — we're here.</p>
+      <p>We aim to reply within one to three business days. Possibly longer if it's a very good hammock day.</p>
+      <a href="mailto:slowdown@slothie.org" class="contact-email">
+        slowdown@slothie.org &rarr;
+      </a>
+    </div>
+    <div class="findus-right">
+      <div class="location-card">
+        <p class="location-label">Headquarters</p>
+        <p class="location-name">Slothie HQ</p>
+        <p class="location-detail">Somewhere in the cloud forest<br>Monteverde, Costa Rica<br>(look for the sloth)</p>
+        <div class="location-divider"></div>
+        <p class="location-label">Hours</p>
+        <div class="hours-row"><span>Monday – Friday</span><span>Whenever we wake up</span></div>
+        <div class="hours-row"><span>Saturday</span><span>Maybe</span></div>
+        <div class="hours-row"><span>Sunday</span><span>Definitely not</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">SLOTHIE.ORG</span>
+    <span class="footer-copy">&copy; 2026 &middot; blended with intention &middot; Costa Rica</span>
+  </footer>
+
 </body>
 </html>
 
